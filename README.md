@@ -12,8 +12,8 @@
 
 ### Links Guia 
 
-[Mi Guia - Recursos](https://docs.google.com/presentation/d/1ahi-mqpHE9Duy4P3NKl36o2OM8j1EGqRbzSEjlijEKs)
-[Mi Guia - Curso ](https://www.udemy.com/course/react-native-crea-aplicaciones-para-android-y-ios-con-react/learn/lecture/19243032?start=15#overview)
+- [Mi Guia - Recursos](https://docs.google.com/presentation/d/1ahi-mqpHE9Duy4P3NKl36o2OM8j1EGqRbzSEjlijEKs)
+- [Mi Guia - Curso ](https://www.udemy.com/course/react-native-crea-aplicaciones-para-android-y-ios-con-react/learn/lecture/19243032?start=15#overview)
 
 
 https://pandao.github.io/editor.md/en.html
