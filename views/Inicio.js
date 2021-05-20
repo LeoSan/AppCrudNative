@@ -25,31 +25,15 @@ const Inicio = ( { navigation, route } )=>{ //Esto Permite usar las propiedades 
         const getClientesAPI = async () =>{
 
             try {
-                
-                if(Platform.OS === 'ios'){
-                    // Para IOS
-                   const resultado = await axios.get('http://localhost:3000/clientes');
-                    /* nota: para ios es el local host que te de tu api*/
-
-                     // Guardar clientes 
-                     setClientes(resultado.data);
-                      // Cambiar a true mpara traernos el nuevo cliente
-                      setConsultarAPI(false);
-
-                }else{
-                    // Para Android
-                    const resultado = await axios.get('http://localhost:3000/clientes');
+                   // Para Android
+                    const resultado = await axios.get('http://192.168.0.9:5000/clientes');
                     /**Nota:  para android es el localhost que tiene tu maquina*/
-                    // console.log(resultado.data)
+                     console.log("Cliente HP");
+                     console.log(resultado.data);
 
                     // Guardar clientes 
                     setClientes(resultado.data);
                     setConsultarAPI(false);
-                }
-
-                if (consultarAPI){
-                    getClientesAPI();
-                }
 
             } catch (error) {
                 console.log(error);   
@@ -57,7 +41,14 @@ const Inicio = ( { navigation, route } )=>{ //Esto Permite usar las propiedades 
 
         }
 
-    }, [] );
+        //Nota-> Personal siempre llamar este metodo fuera de la función 
+
+        if (consultarAPI){
+            getClientesAPI();
+            setConsultarAPI(false); // veolvemos a false
+        }
+
+    }, [consultarAPI] );
 
 
 return (
@@ -76,17 +67,16 @@ return (
             {/* Cabecera conficionada */}
             <Headline
                 style={globalStyles.titulo}
-            > {clientes.length > 0 ? 'Clientes' : 'Aún no hay Clientes'}</Headline>
+            > {clientes.length > 0 ? 'Clientes' : 'Aún no hay Cliente'}</Headline>
 
             {/* Listando clientes */}
             <FlatList 
                 data={clientes}
-                keyExtractor={cliente => (cliente.id).toString() } //  Colocando el id unico en string
+                keyExtractor={ leo => ( leo.id).toString() } //  Colocando el id unico en string
                 renderItem={ ({item}) => (   // item variable temporal que crea flatlist
                     <List.Item
                         title={item.nombre}
                         description={item.empresa}
-
                         onPress={() => navigation.navigate('DetalleCliente', { item, setConsultarAPI })} // vista detalle
                     /> // Componente similiar al flalist
                 )}

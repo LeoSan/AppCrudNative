@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, Platform} from  'react-native';
 import { Button as Btn, Headline, TextInput, Paragraph, Dialog, Portal  } from 'react-native-paper'; //Recuerda este 
 //boton es de paper si importas un boton de React-native debes colocar un alias porque dara conflictos
@@ -23,6 +23,23 @@ const NuevoCliente = ( {navigation, route} )=>{ //Esto Permite usar las propieda
 
    // console.log( navigation ); //Aqui podemos ver las funciones de navegacion esto se debe investigar 
 
+    //Detectar si carga o edita el cliente 
+
+    useEffect( ()=>{
+
+        if(route.params.cliente){
+                    console.log(`Estamos Editando`);
+                    const { nombre, telefono, correo, empresa, id} = route.params.cliente;
+                    //Enviando al state
+                    setNombre(nombre);
+                    setTelefono(telefono);
+                    setCorreo(correo);
+                    setEmpresa(empresa);
+                }
+
+
+    }, [] )
+
 //Listado de eventos 
 
     //Evento Guardar Cliente  
@@ -39,30 +56,50 @@ const NuevoCliente = ( {navigation, route} )=>{ //Esto Permite usar las propieda
         const cliente = { nombre, telefono, correo, empresa };
         console.log(cliente);
 
-        //guardar cliente en la API
-              // Guardar cliente en el api
-              try {
-                        
-                if(Platform.OS === 'ios'){
-                    // Para IOS
-                    await axios.post('http://localhost:3000/clientes', cliente);
-                    /*
-                        nota: para ios es el local host que te de tu api
-                    */
-                }else{
-                    // Para Android
-                    //await axios.post('http://192.168.1.2:3000/clientes', cliente);
-                    //await axios.post('http://192.168.1.0:3000/clientes', cliente);
-                    await axios.post('http://localhost:3000/clientes', cliente);
-                    /**
-                     *  Nota:  para android es el localhost que tiene tu maquina
-                     */
-                }
-    
+
+        // Si Estamos editando o creando
+        if(route.params.cliente){
+            // Editando
+            
+            // Extraemos ID
+            const { id } = route.params.cliente;
+
+            // Asignamos el id
+            cliente.id = id;
+            //Ip de mi maquina en este tiempo 192.168.0.9
+            const url= `http://192.168.0.9:5000/clientes/${id}`; 
+
+            try {
+                await axios.put(url ,cliente);
             } catch (error) {
                 console.log(error)
             }
 
+        }else{
+                    //guardar cliente en la API
+                    // Guardar cliente en el api
+                    try {
+                            
+                    if(Platform.OS === 'ios'){
+                        // Para IOS
+                        await axios.post('http://localhost:3000/clientes', cliente);
+                        /*
+                            nota: para ios es el local host que te de tu api
+                        */
+                    }else{
+                        // Para Android
+                        //await axios.post('http://192.168.1.2:3000/clientes', cliente);
+                        //await axios.post('http://192.168.1.0:3000/clientes', cliente);
+                        await axios.post('http://192.168.0.9:5000/clientes', cliente);
+                        /**
+                         *  Nota:  para android es el localhost que tiene tu maquina
+                         */
+                    }
+
+                    } catch (error) {
+                        console.log(error)
+                    }
+        }
         
           // Redirecconar
           navigation.navigate('Inicio');
@@ -74,11 +111,8 @@ const NuevoCliente = ( {navigation, route} )=>{ //Esto Permite usar las propieda
         setEmpresa('');
 
          // Cambiar a true para traernos el nuevo clientes, esto cambia el estado
-        setConsultarAPI(trus);
-        
+        setConsultarAPI(true);
     }
-    
-
 return (
     
         <View  style = {globalStyles.contenedor}>

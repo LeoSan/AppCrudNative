@@ -19,7 +19,16 @@ const globalStyles = StyleSheet.create({
         margin: 30, 
         right: 0,
         bottom: 85
+    },
+    texto:{
+        marginBottom:20,
+        fontSize:18
+    },  
+    btnEliminar:{
+        marginTop:100,
+        backgroundColor:'red'
     }
+
 
 });
 
